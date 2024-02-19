@@ -1,4 +1,4 @@
-const employee = [
+let employee = [
   { id: '1', name: 'Mohamed Sayed' },
 ];
 
@@ -12,10 +12,10 @@ exports.deleteEmployee = async (req, res, next) => {
   console.log('inside async delete')
   try {
     
- const {id }= req.body
-console.log(id )
+ const id= req.body
+console.log('id inside async',id )
 
-employee = employee.filter(employee => employee.id !== id);
+employee = employee.filter(empl => empl.id !== id);
  
 } catch (error) {
     console.error('Error deleting employee:', error);

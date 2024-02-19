@@ -40,22 +40,24 @@ submitButton.addEventListener("click", createEmployee);
 console.log(submitButton)
 // TODO
 // add event listener to delete button
-let deleteButtons = document.getElementsByClassName('btn btn-danger btn-sm');
-for (var i = 0 ; i < deleteButtons.length; i++) {
-deleteButtons[i].addEventListener('click', 
-
+//let deleteButtons = document.getElementsByClassName('btn btn-danger btn-sm');
+//console.log (deleteButtons)
+//for (let i = 0 ; i < deleteButtons.length; i++) {
+var clickedDeleteButton = 0
+  
+document.addEventListener('click', 
 function(e) {
- 
-  if (e.target==deleteButtons[i]) {
-   
-    var clickedDeleteButton = e.target;
+  if (e.target.classList.contains('btn') && e.target.classList.contains('btn-danger') && e.target.classList.contains('btn-sm')) {
+    // This is a delete button
+  console.log('inside Deelete event listener')
+     clickedDeleteButton = e.target;
     deleteEmployee();
   }
-
 }
 
-);
-};
+
+)
+
 // TODO
 function createEmployee (){
   console.log ('inside create employee function')
@@ -107,11 +109,19 @@ else {
 
 // TODO
 function deleteEmployee (){
+  console.log ('inside delete function')
+  console.log (clickedDeleteButton)
+
   // get id
-  const row = clickedDeleteButton.closest('tr'); 
-  const idCell = row.querySelector('td:first-child'); 
-  const idToDelete = idCell.textContent
-    
+  var row = clickedDeleteButton.closest('tr'); 
+  console.log (row)
+
+  const idCell = row.querySelector('td:first-child') 
+  console.log (idCell)
+
+
+  const idToDelete = idCell.textContent.trim();
+  console.log (idToDelete)
   // send id to BE
 
   fetch('http://localhost:3000/api/v1/employee', { 
@@ -119,17 +129,15 @@ function deleteEmployee (){
     headers: {
       'Content-Type': 'application/json'
      },
-    body: JSON.stringify (
-      {
-      id : idToDelete
-      }
-    ),
+  body: JSON.stringify ({idToDelete}),
   })
 
   .then(response => {
     if (response.ok) {
       console.log('Employee is deleted');
   // call fetchEmployees
+  row.parentNode.removeChild(row);
+  clickedDeleteButton.parentNode.removeChild(clickedDeleteButton);
   fetchEmployees();
       
     }
@@ -145,7 +153,7 @@ else {
   .catch(error => {
     console.error('Error deleting employee:', error);
   });
-  // call fetchEmployees
-};
+  
+}
 
 fetchEmployees()
