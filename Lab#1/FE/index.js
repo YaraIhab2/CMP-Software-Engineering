@@ -120,24 +120,25 @@ function deleteEmployee (){
   console.log (idCell)
 
 
-  const idToDelete = idCell.textContent.trim();
+  const idToDelete = parseInt(idCell.textContent.trim());
+
   console.log (idToDelete)
   // send id to BE
 
-  fetch('http://localhost:3000/api/v1/employee', { 
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-     },
-  body: JSON.stringify ({idToDelete}),
+  fetch(`http://localhost:3000/api/v1/employee/${idToDelete}` , { 
+    method: 'DELETE',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //    },
+  //  body: JSON.stringify ({id : idToDelete}),
   })
 
   .then(response => {
     if (response.ok) {
       console.log('Employee is deleted');
-  // call fetchEmployees
-  row.parentNode.removeChild(row);
-  clickedDeleteButton.parentNode.removeChild(clickedDeleteButton);
+  //call fetchEmployees
+  // row.parentNode.removeChild(row);
+  // clickedDeleteButton.parentNode.removeChild(clickedDeleteButton);
   fetchEmployees();
       
     }

@@ -1,4 +1,4 @@
-let employee = [
+const employee = [
   { id: '1', name: 'Mohamed Sayed' },
 ];
 
@@ -12,11 +12,18 @@ exports.deleteEmployee = async (req, res, next) => {
   console.log('inside async delete')
   try {
     
- const id= req.body
-console.log('id inside async',id )
+ const idParam= req.params.id
+console.log('id inside async',idParam )
 
-employee = employee.filter(empl => empl.id !== id);
- 
+//employee = employee.filter(empl => empl.id !== id);
+const index = employee.findIndex(empl=> empl.id === idParam);
+
+if (index !== -1) {
+
+  employee.splice(index, 1);
+  res.status(200).json({ message: "Success! : Employee deleted" });
+  
+}
 } catch (error) {
     console.error('Error deleting employee:', error);
    res.status(500).json({ error: 'ERROR: Employee not deleted' });
